@@ -96,6 +96,17 @@ impl From<Payload<'_>> for Vec<u8> {
   }
 }
 
+impl From<Payload<'_>> for bytes::Bytes {
+  fn from(cow: Payload<'_>) -> Self {
+    match cow {
+      Payload::Owned(vec) => vec.into(), // Zero-copy
+      Payload::Bytes(bm) => bm.freeze(), // Zero-copy
+      Payload::Borrowed(b) => bytes::Bytes::copy_from_slice(b),
+      Payload::BorrowedMut(b) => bytes::Bytes::copy_from_slice(b),
+    }
+  }
+}
+
 impl Payload<'_> {
   #[inline(always)]
   pub fn to_mut(&mut self) -> &mut [u8] {
