@@ -287,9 +287,9 @@ impl<'f, S> WebSocketRead<S> {
 
   /// Reads a frame from the stream.
   pub async fn read_frame<R, E>(
-    &mut self,
+    &'f mut self,
     send_fn: &mut impl FnMut(Frame<'f>) -> R,
-  ) -> Result<Frame, WebSocketError>
+  ) -> Result<Frame<'f>, WebSocketError>
   where
     S: AsyncRead + Unpin,
     E: Into<Box<dyn std::error::Error + Send + Sync + 'static>>,
