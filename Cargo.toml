@@ -61,7 +61,7 @@ http = { version = "1", optional = true }
 async-trait = { version = "0.1", optional = true }
 
 [features]
-default = []
+default = ["simd"]
 upgrade = [
     "hyper",
     "pin-project",
@@ -71,6 +71,7 @@ upgrade = [
     "http-body-util",
 ]
 unstable-split = []
+simd = ["dep:simdutf8"]
 # Axum integration
 with_axum = ["axum-core", "http", "async-trait"]
 
